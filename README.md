@@ -14,6 +14,11 @@
             --laser-glow-color: rgba(139, 92, 246, 0.25); /* هاله نئونی لیزری بنفش-فیروزه‌ای */
             --text-gray-muted: #7f92a5;   /* خاکستری ملایم برای توضیحات ارشیوها */
             --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            
+            /* متغیرهای اضافه شده برای چوکات لیزری */
+            --laser-blue: #00f0ff;
+            --btn-blue: #2481cc;
+            --btn-shadow: rgba(11, 44, 71, 0.95);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
@@ -27,7 +32,7 @@
         /* =============================================================
            ۲. ساختار هدر و عنوان اصلی صفحه
            ============================================================= */
-        .header-container { width: 100%; max-width: 900px; margin-bottom: 50px; }
+        .header-container { width: 100%; max-width: 900px; margin-bottom: 20px; }
         
         .back-btn {
             display: inline-flex; align-items: center; color: #ffffff; text-decoration: none;
@@ -40,6 +45,107 @@
             background: linear-gradient(180deg, #ffffff 0%, #b0c4de 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
+
+        /* =============================================================
+           استایل‌های بخش چوکات لیزری مایع (اضافه شده)
+           ============================================================= */
+        .premium-request-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 50px;
+            perspective: 1000px;
+        }
+        .laser-chokat {
+            width: 100%;
+            min-height: 140px;
+            background: linear-gradient(270deg, #111c24, #192d3d, #111c24);
+            background-size: 400% 400%;
+            animation: gradientFluid 12s ease infinite;
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 24px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 240, 255, 0.15);
+            transform: rotateX(6deg);
+            transition: var(--transition-smooth);
+        }
+        .laser-chokat:hover {
+            transform: rotateX(2deg) translateY(-2px);
+            border-color: rgba(0, 240, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 35px rgba(0, 240, 255, 0.3);
+        }
+        @keyframes gradientFluid {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .laser-shapes-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .laser-svg {
+            position: absolute;
+            stroke: var(--laser-blue);
+            stroke-width: 1.2;
+            fill: none;
+            opacity: 0.18;
+            filter: drop-shadow(0 0 5px var(--laser-blue));
+            animation: shapeLiquidMove 16s ease-in-out infinite alternate;
+        }
+        @keyframes shapeLiquidMove {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            50% { transform: translate(30px, -20px) rotate(15deg) scale(1.1); }
+            100% { transform: translate(-20px, 25px) rotate(-15deg) scale(0.95); }
+        }
+        .laser-bubble {
+            position: absolute;
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 50%;
+            bottom: -30px;
+            filter: drop-shadow(0 0 4px var(--laser-blue));
+            animation: bubbleRise 9s infinite linear;
+            z-index: 1;
+        }
+        @keyframes bubbleRise {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            15% { opacity: 0.5; }
+            85% { opacity: 0.5; }
+            100% { transform: translateY(-200px) translateX(25px); opacity: 0; }
+        }
+        .chokat-text {
+            position: relative;
+            z-index: 2;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.6;
+            letter-spacing: 0.3px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 240, 255, 0.3);
+            max-width: 850px;
+        }
+        
+        .chokat-btn { max-width: 320px; z-index: 2; display: block; margin: 0 auto; }
+        
+        .card-btn { 
+            width: 100%; background-color: var(--btn-blue); color: #ffffff; text-decoration: none; 
+            text-align: center; padding: 14px 20px; border-radius: 16px; font-size: 16px; font-weight: 600; 
+            box-shadow: 0 10px 22px var(--btn-shadow); border: 1px solid rgba(255, 255, 255, 0.08); 
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        .card-btn:hover { background-color: #2b96eb; box-shadow: 0 12px 28px rgba(36, 129, 204, 0.5); transform: translateY(-1px); }
 
         /* =============================================================
            ۳. استایل ردیف‌های آرشیو با دیواره خط لیزری بسیار قشنگ
@@ -86,6 +192,12 @@
             .book-icon-master { width: 28px; height: 28px; }
             .archive-title { font-size: 16px; }
             .archive-desc { font-size: 12px; }
+            
+            /* تنظیمات موبایل چوکات */
+            .premium-request-container { margin-bottom: 40px; gap: 16px; }
+            .laser-chokat { padding: 20px 15px; min-height: 110px; border-radius: 18px; }
+            .chokat-text { font-size: 0.95rem; line-height: 1.5; }
+            .card-btn { font-size: 14px; padding: 12px 10px; }
         }
     </style>
 </head>
@@ -94,6 +206,26 @@
     <div class="header-container">
        <a href="https://Google-Books.github.io/MainPage/" class="back-btn">&larr; Back</a>
         <h1 class="main-title">We Try Our Best To Provide You The Best And Largest Sources!</h1>
+    </div>
+
+    <!-- چوکات لیزری اضافه شده دقیقاً زیر عنوان -->
+    <div class="premium-request-container">
+        <div class="laser-chokat">
+            <div class="laser-shapes-layer">
+                <svg class="laser-svg" style="top: 15%; left: 8%; animation-delay: 0s; width: 35px; height: 35px;" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                <svg class="laser-svg" style="top: 55%; left: 15%; animation-delay: -3s; width: 40px; height: 40px;" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6V4h12v16z"/></svg>
+                <svg class="laser-svg" style="top: 20%; right: 12%; animation-delay: -6s; width: 38px; height: 38px;" viewBox="0 0 24 24"><path d="M21 3c-1.66 0-3 1.34-3 3 0 .7.24 1.33.64 1.85L11.5 15.0L9 12.5l-1.5 1.5 4 4 8-8.5c.53.37 1.17.5 1.85.5 1.66 0 3-1.34 3-3s-1.34-3-3-3z"/></svg>
+                <svg class="laser-svg" style="top: 50%; right: 7%; animation-delay: -9s; width: 45px; height: 45px;" viewBox="0 0 24 24"><path d="M12 6c-1.5-2-5-2.5-7-2.5v14c2 0 5.5.5 7 2.5 1.5-2 5-2.5 7-2.5V3.5c-2 0-5.5.5-7 2.5z"/></svg>
+                <div class="laser-bubble" style="left: 20%; width: 12px; height: 12px; animation-duration: 7s; animation-delay: 1s;"></div>
+                <div class="laser-bubble" style="left: 45%; width: 8px; height: 8px; animation-duration: 10s; animation-delay: 3s;"></div>
+                <div class="laser-bubble" style="left: 70%; width: 14px; height: 14px; animation-duration: 8s; animation-delay: 0s;"></div>
+                <div class="laser-bubble" style="right: 25%; width: 10px; height: 10px; animation-duration: 11s; animation-delay: 5s;"></div>
+            </div>
+            <div class="chokat-text">
+                Couldn't find your book? Click the button below and request it from support.
+            </div>
+        </div>
+        <a href="https://google-books.github.io/Request/" class="card-btn chokat-btn">Request Book</a>
     </div>
 
     <div class="archive-list">
